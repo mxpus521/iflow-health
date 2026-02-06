@@ -37,6 +37,12 @@ python -m http.server 8000
 # 然后访问 http://localhost:8000
 ```
 
+### 在线体验
+
+🌐 **直接访问**：[https://cods.gleeze.com/iflow-health/](https://cods.gleeze.com/iflow-health/)
+
+无需下载或安装，点击链接即可在线体验完整的春节健康指南！
+
 ## 📁 项目结构
 
 ```
