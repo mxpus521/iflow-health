@@ -651,8 +651,8 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 如有问题或建议，欢迎通过以下方式联系：
 
 - 📧 邮箱：your.email@example.com
-- 🐙 GitHub Issues：[提交Issue](https://github.com/yourusername/spring-festival-health-guide/issues)
-- 💬 讨论区：[GitHub Discussions](https://github.com/yourusername/spring-festival-health-guide/discussions)
+- 🐙 GitHub Issues：[提交Issue](https://github.com/mxpus521/iflow-health/issues)
+- 💬 讨论区：[GitHub Discussions](https://github.com/mxpus521/iflow-health/discussions)
 
 ---
 
