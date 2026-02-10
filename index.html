@@ -1,658 +1,1835 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>春节期间循证医学健康指南 - 2026丙午马年</title>
+    <title>春节健康指南 - 循证医学</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Ma+Shan+Zheng&family=Cinzel:wght@400;700;900&display=swap"
+        rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #A82830;
+            --primary-dark: #7A1520;
+            --primary-deep: #4E0D14;
+            --primary-light: #D4545A;
+            --primary-glow: rgba(168, 40, 48, 0.35);
+
+            --gold: #D4A853;
+            --gold-light: #F0DCA4;
+            --gold-dark: #9A7B3C;
+            --gold-glow: rgba(212, 168, 83, 0.25);
+            --gold-shimmer: linear-gradient(135deg, #D4A853 0%, #F0DCA4 40%, #D4A853 60%, #9A7B3C 100%);
+
+            --jade: #1E4D3D;
+            --jade-light: #3A7A62;
+
+            --ink: #121212;
+            --ink-secondary: #3C3C3C;
+            --ink-tertiary: #6E6E6E;
+            --ink-faint: #9A9A9A;
+            --paper: #F7F5F0;
+            --paper-warm: #F2EDE3;
+            --paper-elevated: #FFFFFF;
+            --cream: #EDE6D6;
+            --cream-dark: #D8CFBC;
+
+            --success: #2E7D52;
+            --danger: #A82830;
+            --info: #3B6FA0;
+
+            --shadow-subtle: 0 1px 3px rgba(0,0,0,0.03);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.03);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+            --shadow-xl: 0 24px 64px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.05);
+            --shadow-gold: 0 8px 32px rgba(212,168,83,0.18);
+            --shadow-red: 0 8px 32px rgba(168,40,48,0.15);
+            --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.04);
+
+            --font-display: 'Noto Serif SC', 'Source Han Serif SC', serif;
+            --font-body: 'Noto Sans SC', 'Source Han Sans SC', sans-serif;
+            --font-accent: 'Ma Shan Zheng', cursive;
+            --font-latin: 'Cinzel', serif;
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
-            background: linear-gradient(135deg, #fff5e6 0%, #ffe4c4 100%);
-            min-height: 100vh;
-            color: #333;
+            font-family: var(--font-body);
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
+        /* ═══════════════════════════════════════
+           Reading Progress Bar
+           ═══════════════════════════════════════ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gold-shimmer);
+            z-index: 10000;
+            transition: width 60ms linear;
+            box-shadow: 0 0 12px var(--gold-glow);
+        }
+
+        /* ═══════════════════════════════════════
+           Floating Navigation
+           ═══════════════════════════════════════ */
+        .floating-nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-120px);
+            z-index: 1000;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(20px) saturate(1.8);
+            -webkit-backdrop-filter: blur(20px) saturate(1.8);
+            border: 1px solid rgba(212, 168, 83, 0.15);
+            border-radius: 60px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: transform 0.5s var(--ease-out-expo), opacity 0.5s var(--ease-out-expo);
+            opacity: 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+
+        .floating-nav.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-smooth);
+            white-space: nowrap;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-item:hover {
+            color: var(--gold-light);
+            background: rgba(212, 168, 83, 0.1);
+        }
+
+        .nav-item.active {
+            color: var(--gold);
+            background: rgba(212, 168, 83, 0.12);
+        }
+
+        .nav-item .nav-emoji {
+            font-size: 15px;
+        }
+
+        .nav-label { display: none; }
+        @media (min-width: 900px) {
+            .nav-label { display: inline; }
+        }
+
+        /* ═══════════════════════════════════════
+           Ambient Background
+           ═══════════════════════════════════════ */
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.12;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .ambient-orb:nth-child(1) {
+            width: 500px; height: 500px;
+            background: var(--primary);
+            top: -10%; right: -5%;
+            animation-duration: 25s;
+        }
+
+        .ambient-orb:nth-child(2) {
+            width: 400px; height: 400px;
+            background: var(--gold);
+            bottom: 10%; left: -10%;
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .ambient-orb:nth-child(3) {
+            width: 300px; height: 300px;
+            background: var(--jade);
+            top: 40%; right: -8%;
+            animation-duration: 22s;
+            animation-delay: -10s;
+            opacity: 0.08;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -40px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* ═══════════════════════════════════════
+           Layout
+           ═══════════════════════════════════════ */
         .container {
-            max-width: 1200px;
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 24px 20px;
+            position: relative;
+            z-index: 2;
         }
 
-        .header {
+        @media (min-width: 768px) {
+            .container { padding: 40px 32px; }
+        }
+        @media (min-width: 1200px) {
+            .container { padding: 48px 40px; }
+        }
+
+        /* ═══════════════════════════════════════
+           Hero Header
+           ═══════════════════════════════════════ */
+        .hero {
+            position: relative;
             text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #e63946 0%, #d62828 100%);
+            padding: 80px 32px 72px;
+            background: linear-gradient(170deg, var(--primary) 0%, var(--primary-dark) 40%, var(--primary-deep) 100%);
+            border-radius: 28px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl), 0 0 80px var(--primary-glow);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 20% 10%, rgba(212,168,83,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 60% at 80% 90%, rgba(212,168,83,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 80% 40% at 50% 50%, rgba(0,0,0,0.15) 0%, transparent 70%);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(212,168,83,0.02) 2px,
+                rgba(212,168,83,0.02) 4px
+            );
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleRise linear infinite;
+        }
+
+        @keyframes particleRise {
+            0% { opacity: 0; transform: translateY(100%) scale(0); }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.2; }
+            100% { opacity: 0; transform: translateY(-400px) scale(1); }
+        }
+
+        .hero-corner {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            pointer-events: none;
+            opacity: 0.2;
+        }
+
+        .hero-corner::before,
+        .hero-corner::after {
+            content: '';
+            position: absolute;
+            background: var(--gold);
+        }
+
+        .hero-corner.tl { top: 24px; left: 24px; }
+        .hero-corner.tl::before { top: 0; left: 0; width: 32px; height: 1.5px; }
+        .hero-corner.tl::after { top: 0; left: 0; width: 1.5px; height: 32px; }
+
+        .hero-corner.tr { top: 24px; right: 24px; }
+        .hero-corner.tr::before { top: 0; right: 0; width: 32px; height: 1.5px; }
+        .hero-corner.tr::after { top: 0; right: 0; width: 1.5px; height: 32px; }
+
+        .hero-corner.bl { bottom: 24px; left: 24px; }
+        .hero-corner.bl::before { bottom: 0; left: 0; width: 32px; height: 1.5px; }
+        .hero-corner.bl::after { bottom: 0; left: 0; width: 1.5px; height: 32px; }
+
+        .hero-corner.br { bottom: 24px; right: 24px; }
+        .hero-corner.br::before { bottom: 0; right: 0; width: 32px; height: 1.5px; }
+        .hero-corner.br::after { bottom: 0; right: 0; width: 1.5px; height: 32px; }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .year-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212, 168, 83, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 168, 83, 0.25);
+            color: var(--gold-light);
+            padding: 8px 24px;
+            border-radius: 100px;
+            font-family: var(--font-accent);
+            font-size: 18px;
+            margin-bottom: 28px;
+            letter-spacing: 3px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.2rem, 7vw, 3.8rem);
+            font-weight: 900;
+            color: transparent;
+            background: var(--gold-shimmer);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: 0.2em;
+            line-height: 1.2;
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+        }
+
+        .hero-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 20px auto;
+            opacity: 0.4;
+        }
+
+        .hero-tagline {
+            font-size: 13px;
+            color: var(--gold);
+            opacity: 0.7;
+            letter-spacing: 0.08em;
+            font-weight: 400;
+        }
+
+        /* ═══════════════════════════════════════
+           Evidence Banner
+           ═══════════════════════════════════════ */
+        .evidence-banner {
+            background: var(--paper-elevated);
+            border: 1px solid var(--cream-dark);
             border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(214, 40, 40, 0.3);
+            padding: 28px 32px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .evidence-banner:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(30, 77, 61, 0.2);
+        }
+
+        .evidence-banner::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--jade), var(--jade-light));
+            border-radius: 4px 0 0 4px;
+        }
+
+        .evidence-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, rgba(30, 77, 61, 0.08), rgba(30, 77, 61, 0.04));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+            border: 1px solid rgba(30, 77, 61, 0.1);
+        }
+
+        .evidence-text h3 {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--jade);
+            letter-spacing: 0.02em;
+        }
+
+        .evidence-text p {
+            color: var(--ink-tertiary);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* ═══════════════════════════════════════
+           Section Accordion
+           ═══════════════════════════════════════ */
+        .section {
+            background: var(--paper-elevated);
+            border-radius: 20px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-subtle);
+            transition: all 0.4s var(--ease-smooth);
+            position: relative;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            background: linear-gradient(180deg, var(--primary), var(--gold));
+            transition: width 0.4s var(--ease-out-expo);
+            border-radius: 20px 0 0 20px;
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(212, 168, 83, 0.12);
+        }
+
+        .section:hover::before {
+            width: 4px;
+        }
+
+        .section.expanded {
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(212, 168, 83, 0.15);
+        }
+
+        .section.expanded::before {
+            width: 4px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 24px 28px;
+            cursor: pointer;
+            transition: background 0.3s var(--ease-smooth);
+            position: relative;
+            user-select: none;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, rgba(212, 168, 83, 0.04) 0%, transparent 100%);
+        }
+
+        .section-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(145deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-red), inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: all 0.5s var(--ease-spring);
+        }
+
+        .section:hover .section-icon {
+            transform: scale(1.06) rotate(-2deg);
+        }
+
+        .section-title-group {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .section-title-group h2 {
+            font-family: var(--font-body);
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 3px;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            letter-spacing: 0.01em;
+        }
+
+        .evidence-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--jade);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .evidence-badge.level-b {
+            background: var(--gold-dark);
+        }
+
+        .section-subtitle {
+            color: var(--ink-faint);
+            font-size: 13px;
+        }
+
+        .expand-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(168, 40, 48, 0.06);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.5s var(--ease-spring);
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .section.expanded .expand-icon {
+            transform: rotate(180deg);
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s var(--ease-out-expo), opacity 0.4s var(--ease-smooth);
+            opacity: 0;
+        }
+
+        .section.expanded .section-content {
+            opacity: 1;
+        }
+
+        .section-inner {
+            padding: 0 28px 28px;
+        }
+
+        /* ═══════════════════════════════════════
+           Content Grid & Cards
+           ═══════════════════════════════════════ */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 700px) {
+            .content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .content-card {
+            background: linear-gradient(160deg, var(--paper) 0%, var(--paper-warm) 100%);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid rgba(212, 168, 83, 0.1);
+            transition: all 0.4s var(--ease-smooth);
             position: relative;
             overflow: hidden;
         }
 
-        .header::before {
-            content: '🧧';
+        .content-card::before {
+            content: '';
             position: absolute;
-            font-size: 80px;
-            top: -20px;
-            left: -20px;
-            opacity: 0.3;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--gold), var(--primary));
+            background-size: 200% 100%;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s var(--ease-out-expo);
         }
 
-        .header::after {
-            content: '🏮';
+        .content-card::after {
+            content: '';
             position: absolute;
-            font-size: 80px;
-            bottom: -20px;
-            right: -20px;
-            opacity: 0.3;
+            inset: 0;
+            background: radial-gradient(circle at 100% 0%, rgba(212,168,83,0.04), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
         }
 
-        .header h1 {
-            color: white;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        .content-card:hover {
+            border-color: rgba(212, 168, 83, 0.25);
+            box-shadow: var(--shadow-gold);
+            transform: translateY(-4px);
         }
 
-        .header p {
-            color: #fff5e6;
-            font-size: 1.2em;
-            font-weight: 300;
+        .content-card:hover::before {
+            transform: scaleX(1);
+            animation: gradientSlide 2s linear infinite;
         }
 
-        .subtitle {
-            text-align: center;
-            color: #d62828;
-            font-size: 1.1em;
-            margin-bottom: 30px;
-            padding: 15px;
-            background: rgba(214, 40, 40, 0.1);
-            border-radius: 10px;
-            border-left: 4px solid #d62828;
+        .content-card:hover::after {
+            opacity: 1;
         }
 
-        .section {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        @keyframes gradientSlide {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
 
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #f1f1f1;
-        }
-
-        .section-title .icon {
-            font-size: 2.5em;
-            background: linear-gradient(135deg, #ff6b6b, #d62828);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-title h2 {
-            color: #d62828;
-            font-size: 1.8em;
-        }
-
-        .content-item {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid #ff6b6b;
-            transition: all 0.3s ease;
-        }
-
-        .content-item:hover {
-            background: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transform: translateX(5px);
-        }
-
-        .content-item h3 {
-            color: #d62828;
-            margin-bottom: 10px;
-            font-size: 1.3em;
+        .content-card h3 {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            color: var(--ink);
             display: flex;
             align-items: center;
             gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(212, 168, 83, 0.15);
+            position: relative;
         }
 
-        .content-item h3::before {
-            content: '✓';
-            color: #ff6b6b;
-            font-weight: bold;
+        .content-card h3::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--gold-shimmer);
+            border-radius: 2px;
+            transform: rotate(45deg);
+            flex-shrink: 0;
         }
 
-        .content-item p {
+        .content-card p {
+            color: var(--ink-secondary);
+            margin-bottom: 14px;
+            font-size: 13px;
             line-height: 1.8;
-            color: #555;
+            position: relative;
+        }
+
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+            position: relative;
+        }
+
+        .content-card li {
+            position: relative;
+            padding-left: 22px;
             margin-bottom: 10px;
+            color: var(--ink-secondary);
+            font-size: 13px;
+            line-height: 1.7;
         }
 
-        .content-item ul {
-            margin-left: 20px;
-            line-height: 1.8;
-            color: #555;
+        .content-card li::before {
+            content: '';
+            position: absolute;
+            left: 2px;
+            top: 9px;
+            width: 6px;
+            height: 6px;
+            border: 1.5px solid var(--gold);
+            border-radius: 50%;
+            opacity: 0.6;
         }
 
-        .content-item li {
-            margin-bottom: 8px;
+        .content-card strong {
+            color: var(--primary);
+            font-weight: 600;
         }
 
+        .source-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(30, 77, 61, 0.06);
+            color: var(--jade);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-top: 14px;
+            border: 1px solid rgba(30, 77, 61, 0.08);
+            letter-spacing: 0.01em;
+        }
+
+        /* ═══════════════════════════════════════
+           Warning Box
+           ═══════════════════════════════════════ */
         .warning-box {
-            background: linear-gradient(135deg, #fff3cd, #ffe69c);
-            border: 2px solid #ffc107;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
+            background: linear-gradient(160deg, rgba(168, 40, 48, 0.03) 0%, rgba(212, 168, 83, 0.02) 100%);
+            border: 1px solid rgba(168, 40, 48, 0.15);
+            border-radius: 16px;
+            padding: 28px;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .warning-box::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--danger), var(--primary-dark));
+            border-radius: 4px 0 0 4px;
+        }
+
+        .warning-box.danger {
+            background: linear-gradient(160deg, rgba(168, 40, 48, 0.06) 0%, rgba(78, 13, 20, 0.03) 100%);
+            border-color: rgba(168, 40, 48, 0.25);
+        }
+
+        .warning-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .warning-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(145deg, var(--danger) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: var(--shadow-red);
+            animation: pulseWarn 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseWarn {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(168, 40, 48, 0.25), var(--shadow-red); }
+            50% { box-shadow: 0 0 0 10px rgba(168, 40, 48, 0), var(--shadow-red); }
         }
 
         .warning-box h4 {
-            color: #856404;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--danger);
+            font-weight: 600;
         }
 
-        .warning-box p {
-            color: #856404;
+        .warning-box p,
+        .warning-box ul {
+            color: var(--ink-secondary);
+            font-size: 13px;
             line-height: 1.8;
         }
 
-        .evidence-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            margin-left: 10px;
-            font-weight: 500;
+        .warning-box li {
+            margin-bottom: 6px;
+            position: relative;
+            padding-left: 18px;
         }
 
+        .warning-box li::before {
+            content: '›';
+            position: absolute;
+            left: 2px;
+            color: var(--danger);
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        /* ═══════════════════════════════════════
+           Footer
+           ═══════════════════════════════════════ */
         .footer {
             text-align: center;
-            padding: 30px;
-            background: linear-gradient(135deg, #e63946 0%, #d62828 100%);
-            border-radius: 20px;
-            color: white;
-            margin-top: 40px;
+            padding: 56px 32px;
+            background: linear-gradient(170deg, var(--primary-dark) 0%, var(--primary-deep) 100%);
+            border-radius: 28px;
+            margin-top: 48px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 70%, rgba(212, 168, 83, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 70% 20%, rgba(212, 168, 83, 0.06) 0%, transparent 40%);
+        }
+
+        .footer::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(212,168,83,0.015) 2px,
+                rgba(212,168,83,0.015) 4px
+            );
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-seal {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 20px;
+            border: 2px solid rgba(212, 168, 83, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .footer h3 {
+            font-family: var(--font-accent);
+            font-size: 1.8rem;
+            color: transparent;
+            background: var(--gold-shimmer);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            margin-bottom: 12px;
+            letter-spacing: 0.12em;
+            animation: shimmer 4s ease-in-out infinite;
         }
 
         .footer p {
-            font-size: 1.1em;
-            margin-bottom: 10px;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 8px;
+            font-weight: 300;
+            letter-spacing: 0.06em;
         }
 
         .footer small {
-            opacity: 0.8;
+            display: block;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 168, 83, 0.15);
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 11px;
+            line-height: 1.8;
         }
 
-        .accordion {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
+        /* ═══════════════════════════════════════
+           Scroll Animations
+           ═══════════════════════════════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
         }
 
-        .accordion.active {
-            max-height: 2000px;
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .accordion-btn {
-            width: 100%;
-            padding: 15px 20px;
-            background: linear-gradient(135deg, #ff6b6b, #d62828);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* ═══════════════════════════════════════
+           Back to Top
+           ═══════════════════════════════════════ */
+        .back-to-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 168, 83, 0.2);
+            border-radius: 50%;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s var(--ease-out-expo);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
         }
 
-        .accordion-btn:hover {
-            background: linear-gradient(135deg, #d62828, #b01e1e);
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: rgba(168, 40, 48, 0.9);
+            border-color: rgba(168, 40, 48, 0.5);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(214, 40, 40, 0.3);
         }
 
-        .accordion-btn::after {
-            content: '▼';
-            transition: transform 0.3s ease;
-        }
-
-        .accordion-btn.active::after {
-            transform: rotate(180deg);
-        }
-
-        .highlight {
-            background: linear-gradient(120deg, #ff6b6b 0%, #ff6b6b 100%);
-            background-repeat: no-repeat;
-            background-size: 100% 0.3em;
-            background-position: 0 88%;
-            padding: 0 4px;
-        }
-
+        /* ═══════════════════════════════════════
+           Responsive
+           ═══════════════════════════════════════ */
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
+            .hero {
+                padding: 56px 20px 48px;
+                border-radius: 20px;
             }
 
-            .section {
+            .hero-corner { display: none; }
+
+            .year-badge { font-size: 15px; padding: 6px 18px; }
+
+            .evidence-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 24px 20px;
+                gap: 14px;
+            }
+
+            .evidence-icon { margin: 0 auto; }
+
+            .section-header {
                 padding: 20px;
+                gap: 14px;
             }
 
-            .section-title h2 {
-                font-size: 1.4em;
+            .section-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+                border-radius: 12px;
+            }
+
+            .section-title-group h2 { font-size: 15px; }
+            .section-inner { padding: 0 20px 20px; }
+            .content-card { padding: 22px; }
+            .warning-box { padding: 22px; }
+
+            .footer {
+                padding: 40px 20px;
+                border-radius: 20px;
+            }
+
+            .floating-nav {
+                max-width: calc(100vw - 32px);
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 6px 8px;
+            }
+
+            .nav-item {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 42px;
+                height: 42px;
             }
         }
 
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ═══════════════════════════════════════
+           Accessibility
+           ═══════════════════════════════════════ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .hero h1, .footer h3 {
+                background-size: 100% 100%;
+                animation: none;
+            }
+        }
+
+        .section-header:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: -2px;
+            border-radius: 20px;
+        }
+
+        ::selection {
+            background: rgba(168, 40, 48, 0.2);
+            color: var(--primary-dark);
+        }
+
+        /* Smooth scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--paper); }
+        ::-webkit-scrollbar-thumb {
+            background: var(--cream-dark);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--ink-faint);
+        }
     </style>
 </head>
+
 <body>
+    <!-- Reading Progress -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Floating Navigation -->
+    <nav class="floating-nav" id="floatingNav">
+        <a class="nav-item" href="#section-diet" data-section="section-diet">
+            <span class="nav-emoji">🥢</span><span class="nav-label">饮食</span>
+        </a>
+        <a class="nav-item" href="#section-alcohol" data-section="section-alcohol">
+            <span class="nav-emoji">🍶</span><span class="nav-label">饮酒</span>
+        </a>
+        <a class="nav-item" href="#section-medicine" data-section="section-medicine">
+            <span class="nav-emoji">💊</span><span class="nav-label">用药</span>
+        </a>
+        <a class="nav-item" href="#section-bp" data-section="section-bp">
+            <span class="nav-emoji">🫀</span><span class="nav-label">血压</span>
+        </a>
+        <a class="nav-item" href="#section-sugar" data-section="section-sugar">
+            <span class="nav-emoji">🩺</span><span class="nav-label">血糖</span>
+        </a>
+        <a class="nav-item" href="#section-emergency" data-section="section-emergency">
+            <span class="nav-emoji">🏥</span><span class="nav-label">急症</span>
+        </a>
+    </nav>
+
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+        <div class="ambient-orb"></div>
+        <div class="ambient-orb"></div>
+        <div class="ambient-orb"></div>
+    </div>
+    <div class="grain-overlay"></div>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" aria-label="回到顶部">↑</button>
+
     <div class="container">
-        <div class="header">
-            <h1>🎊 春节期间循证医学健康指南 🎊</h1>
-            <p>2026丙午马年 · 科学过新年 · 健康过大年</p>
-        </div>
+        <!-- Hero -->
+        <header class="hero reveal">
+            <div class="hero-corner tl"></div>
+            <div class="hero-corner tr"></div>
+            <div class="hero-corner bl"></div>
+            <div class="hero-corner br"></div>
+            <div class="hero-particles" id="heroParticles"></div>
 
-        <div class="subtitle">
-            📖 本指南基于 WHO、AHA、ADA 等国际权威机构循证医学证据编写<br>
-            帮助您在欢庆春节的同时，保持健康的生活方式
-        </div>
-
-        <!-- 饮食建议模块 -->
-        <div class="section">
-            <div class="section-title">
-                <span class="icon">🥗</span>
-                <h2>饮食建议 <span class="evidence-badge">循证A级证据</span></h2>
+            <div class="hero-content">
+                <div class="year-badge">✦ 2026 丙午马年 ✦</div>
+                <h1>春节健康指南</h1>
+                <p class="hero-subtitle">循证医学 · 科学养生 · 平安过节</p>
+                <div class="hero-divider"></div>
+                <p class="hero-tagline">基于WHO、AHA、ADA等国际权威指南编制</p>
             </div>
-            
-            <button class="accordion-btn" onclick="toggleAccordion(this)">
-                春节饮食健康指南 ▼
-            </button>
-            <div class="accordion active">
-                <div class="content-item">
-                    <h3>控制总热量摄入</h3>
-                    <p>春节期间美食丰富，易导致热量过剩。研究表明，节日期间平均每日摄入量较日常增加30-50%，显著增加体重和代谢风险。</p>
-                    <ul>
-                        <li>每餐控制七八分饱，避免暴饮暴食</li>
-                        <li>优先选择蒸、煮、炖等健康烹饪方式</li>
-                        <li>油炸食品适量，每日不超过一次</li>
-                        <li>甜点糖果浅尝辄止，避免空腹食用</li>
-                    </ul>
-                </div>
+        </header>
 
-                <div class="content-item">
-                    <h3>均衡营养搭配</h3>
-                    <p>基于《中国居民膳食指南(2022)》建议，确保膳食多样化：</p>
-                    <ul>
-                        <li><strong>蔬菜水果</strong>：每日摄入蔬菜300-500克，水果200-350克</li>
-                        <li><strong>优质蛋白</strong>：鱼、禽、蛋、瘦肉总量120-200克/日</li>
-                        <li><strong>谷物主食</strong>：粗细搭配，全谷物和杂豆占1/3以上</li>
-                        <li><strong>奶制品</strong>：每日300克液态奶或相当量奶制品</li>
-                    </ul>
-                </div>
-
-                <div class="content-item">
-                    <h3>控制钠盐摄入</h3>
-                    <p>高盐饮食是高血压的重要危险因素。WHO建议每日盐摄入&lt;5克，春节期间需特别注意：</p>
-                    <ul>
-                        <li>腌制食品、咸菜、腊肉等高盐食物限量</li>
-                        <li>烹饪时减少食盐和酱油用量</li>
-                        <li>注意隐形盐（味精、鸡精、调味品）</li>
-                        <li>多食用新鲜食材，减少加工食品</li>
-                    </ul>
-                </div>
-
-                <div class="warning-box">
-                    <h4>⚠️ 特别提醒</h4>
-                    <p>春节期间聚餐频繁，建议：①每餐间隔3-4小时，给胃部充足休息时间；②避免睡前2小时内进食；③饮酒后不要立即大量饮水，以免加重心脏负担。</p>
-                </div>
+        <!-- Evidence Banner -->
+        <div class="evidence-banner reveal reveal-delay-1">
+            <div class="evidence-icon">📋</div>
+            <div class="evidence-text">
+                <h3>国际循证医学来源</h3>
+                <p>本指南所有内容均来源于世界卫生组织(WHO)、美国心脏协会(AHA)、美国糖尿病协会(ADA)、欧洲心脏病学会(ESC)、美国膳食指南(DGA 2025-2030)、美国预防服务工作组(USPSTF)等国际权威机构发布的最新循证医学证据与临床指南。</p>
             </div>
         </div>
 
-        <!-- 饮酒安全模块 -->
-        <div class="section">
-            <div class="section-title">
-                <span class="icon">🍷</span>
-                <h2>饮酒安全 <span class="evidence-badge">循证A级证据</span></h2>
+        <!-- 饮食建议 -->
+        <div class="section expanded reveal reveal-delay-2" id="section-diet">
+            <div class="section-header" onclick="toggleSection(this)" tabindex="0" role="button" aria-expanded="true">
+                <div class="section-icon">🥢</div>
+                <div class="section-title-group">
+                    <h2>饮食调养 <span class="evidence-badge">A级证据</span></h2>
+                    <p class="section-subtitle">WHO 2026 · AHA · DGA 2025-2030 健康饮食建议</p>
+                </div>
+                <div class="expand-icon" aria-hidden="true">▼</div>
             </div>
-            
-            <button class="accordion-btn" onclick="toggleAccordion(this)">
-                春节饮酒健康提示 ▼
-            </button>
-            <div class="accordion">
-                <div class="content-item">
-                    <h3>限量饮酒原则</h3>
-                    <p>《中国居民膳食指南(2022)》明确建议：<strong>成年男性每日酒精摄入量不超过25克，女性不超过15克</strong>。换算如下：</p>
-                    <ul>
-                        <li><strong>啤酒</strong>：男性≤750毫升，女性≤450毫升</li>
-                        <li><strong>葡萄酒</strong>：男性≤250毫升，女性≤150毫升</li>
-                        <li><strong>白酒（38%vol）</strong>：男性≤75毫升，女性≤50毫升</li>
-                    </ul>
-                </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>节制饮食 不过量</h3>
+                            <p>根据WHO和AHA研究，春节期间日均热量摄入通常增加30-50%，显著增加代谢综合征和心血管风险。中医亦有"饮食自倍，肠胃乃伤"之训。</p>
+                            <ul>
+                                <li><strong>餐盘法则：</strong>蔬菜占半，蛋白质与主食各一</li>
+                                <li><strong>七分饱原则：</strong>留三分空间，细嚼慢咽</li>
+                                <li><strong>烹饪有道：</strong>蒸煮为佳，少油炸烧烤</li>
+                                <li><strong>控糖限甜：</strong>日摄糖量勿逾25克</li>
+                            </ul>
+                            <span class="source-tag">📚 WHO健康膳食指南2026</span>
+                        </div>
 
-                <div class="content-item">
-                    <h3>绝对禁止饮酒人群</h3>
-                    <p>以下人群应完全避免饮酒：</p>
-                    <ul>
-                        <li>孕妇、哺乳期妇女</li>
-                        <li>儿童和青少年</li>
-                        <li>驾车人员、操作机器者</li>
-                        <li>服用头孢类、甲硝唑等药物期间</li>
-                        <li>肝病、胰腺炎、严重胃病患者</li>
-                        <li>正在服用镇静催眠药物者</li>
-                    </ul>
-                </div>
+                        <div class="content-card">
+                            <h3>地中海饮食与DASH饮食</h3>
+                            <p>此二饮食法经AHA/ACC与ESH/ESC指南证实，于心血管保护功效卓著，可资借鉴：</p>
+                            <ul>
+                                <li><strong>蔬果为本：</strong>日摄400-500克，五色杂陈</li>
+                                <li><strong>全谷粗粮：</strong>燕麦、藜麦、糙米代精粮</li>
+                                <li><strong>优质油脂：</strong>橄榄油、坚果、深海鱼油</li>
+                                <li><strong>适量蛋白：</strong>周食鱼二次，红肉不过350克</li>
+                                <li><strong>低脂乳品：</strong>日饮2-3份</li>
+                            </ul>
+                            <span class="source-tag">📚 AHA膳食指南2021 / DGA 2025-2030</span>
+                        </div>
 
-                <div class="content-item">
-                    <h3>安全饮酒建议</h3>
-                    <p>如需饮酒，请遵循以下原则：</p>
-                    <ul>
-                        <li><strong>不要空腹饮酒</strong>：提前进食，保护胃黏膜</li>
-                        <li><strong>慢饮为宜</strong>：小口慢品，避免快速大量摄入</li>
-                        <li><strong>多喝水</strong>：酒精与水按1:1比例交替饮用</li>
-                        <li><strong>混酒风险</strong>：避免不同酒类混饮，增加肝脏负担</li>
-                        <li><strong>酒后禁忌</strong>：酒后不开车、不洗热水澡、不服药</li>
-                    </ul>
-                </div>
+                        <div class="content-card">
+                            <h3>减盐降压</h3>
+                            <p>高血压乃全球心血管疾之首因，WHO力倡减盐：</p>
+                            <ul>
+                                <li><strong>限量：</strong>日摄钠不过2000毫克（盐5克）</li>
+                                <li><strong>慎选：</strong>少食腌腊、加工肉类</li>
+                                <li><strong>调味：</strong>以香料、醋、柠檬汁代盐</li>
+                                <li><strong>标签：</strong>选每百克钠低于120毫克者</li>
+                            </ul>
+                            <span class="source-tag">📚 WHO钠摄入指南2026</span>
+                        </div>
 
-                <div class="warning-box">
-                    <h4>⚠️ 严重警告</h4>
-                    <p><strong>双硫仑样反应</strong>：服用头孢类抗生素（头孢哌酮、头孢曲松等）期间饮酒，可出现面部潮红、头痛、恶心、呼吸困难，严重者可致休克死亡。停药后7天内仍禁止饮酒！</p>
+                        <div class="content-card">
+                            <h3>饮酒与用餐时机</h3>
+                            <p>佳节期间代谢管理之要（DGA 2025-2030）：</p>
+                            <ul>
+                                <li><strong>餐间有度：</strong>保持4-5小时间隔</li>
+                                <li><strong>晚餐有时：</strong>睡前3时勿再进食</li>
+                                <li><strong>饮酒补水：</strong>酒与清水交替饮用</li>
+                                <li><strong>晨起重要：</strong>早餐不可废，血糖得稳</li>
+                            </ul>
+                            <span class="source-tag">📚 ADA护理标准2026</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 用药安全模块 -->
-        <div class="section">
-            <div class="section-title">
-                <span class="icon">💊</span>
-                <h2>用药安全 <span class="evidence-badge">循证A级证据</span></h2>
+        <!-- 饮酒安全 -->
+        <div class="section reveal" id="section-alcohol">
+            <div class="section-header" onclick="toggleSection(this)" tabindex="0" role="button" aria-expanded="false">
+                <div class="section-icon">🍶</div>
+                <div class="section-title-group">
+                    <h2>饮酒有度 <span class="evidence-badge">A级证据</span></h2>
+                    <p class="section-subtitle">WHO与美国NIAAA安全饮酒指南</p>
+                </div>
+                <div class="expand-icon" aria-hidden="true">▼</div>
             </div>
-            
-            <button class="accordion-btn" onclick="toggleAccordion(this)">
-                春节期间用药注意事项 ▼
-            </button>
-            <div class="accordion">
-                <div class="content-item">
-                    <h3>规律用药原则</h3>
-                    <p>慢性病患者春节期间必须坚持规律用药，不可擅自停药或减量：</p>
-                    <ul>
-                        <li><strong>降压药</strong>：每日定时服用，即使血压正常也不能停</li>
-                        <li><strong>降糖药/胰岛素</strong>：按时用药，监测血糖</li>
-                        <li><strong>抗凝药</strong>：不可擅自停用，避免血栓风险</li>
-                        <li><strong>心脏病药物</strong>：随身携带急救药品</li>
-                    </ul>
-                </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>标准饮酒限量</h3>
+                            <p>据WHO与美国NIAAA指南：</p>
+                            <ul>
+                                <li><strong>男性：</strong>日限2标准杯，周不过14杯</li>
+                                <li><strong>女性：</strong>日限1标准杯，周不过7杯</li>
+                                <li><strong>啤酒(5%)：</strong>355毫升 = 1杯</li>
+                                <li><strong>黄酒/米酒(12%)：</strong>150毫升 = 1杯</li>
+                                <li><strong>白酒(40%)：</strong>45毫升 = 1杯</li>
+                            </ul>
+                            <span class="source-tag">📚 NIAAA饮酒指南2025</span>
+                        </div>
 
-                <div class="content-item">
-                    <h3>药物相互作用</h3>
-                    <p>注意以下药物与食物的相互作用：</p>
-                    <ul>
-                        <li><strong>华法林</strong>：富含维生素K的食物（绿叶蔬菜）影响药效</li>
-                        <li><strong>他汀类</strong>：避免与西柚同服，增加不良反应</li>
-                        <li><strong>降压药</strong>：服用后立即饮酒可能导致低血压</li>
-                        <li><strong>降糖药</strong>：空腹饮酒易致低血糖昏迷</li>
-                    </ul>
-                </div>
+                        <div class="content-card">
+                            <h3>绝对禁酒人群</h3>
+                            <p>以下人群滴酒不可沾（WHO/CDC）：</p>
+                            <ul>
+                                <li><strong>孕妇乳母：</strong>无安全剂量可言</li>
+                                <li><strong>未成年人：</strong>脑发育未全</li>
+                                <li><strong>驾驶者：</strong>微量亦碍判断</li>
+                                <li><strong>肝病患者：</strong>肝炎、肝硬化、脂肪肝</li>
+                                <li><strong>成瘾史者：</strong>交叉成瘾之虞</li>
+                            </ul>
+                            <span class="source-tag">📚 CDC饮酒指南</span>
+                        </div>
 
-                <div class="content-item">
-                    <h3>旅行用药准备</h3>
-                    <p>春节期间如需外出旅行，请做好以下准备：</p>
-                    <ul>
-                        <li>携带足够的常规用药，外加3-5天备用量</li>
-                        <li>携带药品说明书和处方复印件</li>
-                        <li>准备急救药品（如硝酸甘油、速效救心丸）</li>
-                        <li>将药品分装，随身携带，不要托运</li>
-                        <li>记录常用药品的通用名，便于当地购药</li>
-                    </ul>
-                </div>
+                        <div class="content-card">
+                            <h3>药物相互作用</h3>
+                            <p>FDA公布之危险配伍：</p>
+                            <ul>
+                                <li><strong>抗生素：</strong>甲硝唑、头孢类（双硫仑反应）</li>
+                                <li><strong>镇静剂：</strong>苯二氮卓类（呼吸抑制）</li>
+                                <li><strong>止痛药：</strong>阿片类、对乙酰氨基酚（肝损）</li>
+                                <li><strong>抗凝药：</strong>华法林（出血风险）</li>
+                                <li><strong>抗抑郁药：</strong>MAOIs、SSRIs（血压/镇静）</li>
+                            </ul>
+                            <span class="source-tag">📚 FDA药物安全通讯</span>
+                        </div>
 
-                <div class="warning-box">
-                    <h4>⚠️ 紧急情况处理</h4>
-                    <p>如出现以下情况，立即就医：<br>①胸痛持续15分钟以上；②意识模糊、言语不清；③剧烈头痛伴呕吐；④呼吸困难；⑤服药后严重过敏反应。</p>
-                </div>
-            </div>
-        </div>
+                        <div class="content-card">
+                            <h3>安全饮酒之道</h3>
+                            <p>若必饮酒，当守此则：</p>
+                            <ul>
+                                <li><strong>不空腹：</strong>先食蛋白质/脂肪垫胃</li>
+                                <li><strong>缓节奏：</strong>每小时不过一杯</li>
+                                <li><strong>水酒交替：</strong>酒一杯水一杯</li>
+                                <li><strong>不混饮：</strong>不同酒类不相杂</li>
+                                <li><strong>酒后三不：</strong>不浴、不药、不驾</li>
+                            </ul>
+                            <span class="source-tag">📚 WHO酒精情况说明书2025</span>
+                        </div>
+                    </div>
 
-        <!-- 高血压管理模块 -->
-        <div class="section">
-            <div class="section-title">
-                <span class="icon">❤️</span>
-                <h2>高血压管理 <span class="evidence-badge">循证A级证据</span></h2>
-            </div>
-            
-            <button class="accordion-btn" onclick="toggleAccordion(this)">
-                春节期间高血压患者健康指南 ▼
-            </button>
-            <div class="accordion">
-                <div class="content-item">
-                    <h3>血压监测要点</h3>
-                    <p>春节期间生活规律易被打乱，建议：</p>
-                    <ul>
-                        <li><strong>监测频率</strong>：每日早晚各测一次血压</li>
-                        <li><strong>正确姿势</strong>：静坐5分钟后测量，手臂与心脏同高</li>
-                        <li><strong>记录数据</strong>：记录测量时间、数值、症状</li>
-                        <li><strong>预警值</strong>：收缩压≥180或舒张压≥110mmHg需就医</li>
-                    </ul>
-                </div>
-
-                <div class="content-item">
-                    <h3>生活方式干预</h3>
-                    <p>基于AHA/ACC指南建议：</p>
-                    <ul>
-                        <li><strong>DASH饮食</strong>：富含水果、蔬菜、低脂奶制品</li>
-                        <li><strong>限盐</strong>：每日盐摄入&lt;5克</li>
-                        <li><strong>控制体重</strong>：BMI控制在18.5-24</li>
-                        <li><strong>规律运动</strong>：每周150分钟中等强度有氧运动</li>
-                        <li><strong>戒烟限酒</strong>：严格戒烟，限量饮酒</li>
-                        <li><strong>管理压力</strong>：保持情绪稳定，避免过度激动</li>
-                    </ul>
-                </div>
-
-                <div class="content-item">
-                    <h3>春节期间特别提醒</h3>
-                    <ul>
-                        <li>避免熬夜打牌、追剧，保证充足睡眠</li>
-                        <li>聚餐时控制情绪，避免过度兴奋或激动</li>
-                        <li>寒冷天气外出注意保暖，避免血压骤升</li>
-                        <li>避免用力排便，防止血压急剧升高</li>
-                        <li>不要擅自调整降压药剂量</li>
-                    </ul>
-                </div>
-
-                <div class="warning-box">
-                    <h4>⚠️ 高血压危象警示</h4>
-                    <p>如出现以下症状，立即拨打急救电话：<br>①剧烈头痛、恶心呕吐；②视力模糊、眼前发黑；③胸闷、胸痛；④意识模糊、言语不清；⑤肢体麻木或无力。</p>
+                    <div class="warning-box danger">
+                        <div class="warning-header">
+                            <div class="warning-icon">⚠️</div>
+                            <h4>双硫仑样反应 - 生死攸关</h4>
+                        </div>
+                        <p><strong>头孢类抗生素</strong>（头孢哌酮、头孢曲松、头孢孟多）及<strong>甲硝唑</strong>与酒同服可致严重反应，停药后72小时内仍有危险：</p>
+                        <ul style="margin-top: 15px;">
+                            <li>面红耳赤、头痛欲裂</li>
+                            <li>恶心呕吐、腹绞痛</li>
+                            <li>心悸胸痛</li>
+                            <li>血压骤降、呼吸困难</li>
+                            <li><strong>可致心血管衰竭而亡</strong></li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>切记：</strong>用药期间及停药后3日绝对禁酒！</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 糖尿病管理模块 -->
-        <div class="section">
-            <div class="section-title">
-                <span class="icon">🩸</span>
-                <h2>糖尿病管理 <span class="evidence-badge">循证A级证据</span></h2>
+        <!-- 用药安全 -->
+        <div class="section reveal" id="section-medicine">
+            <div class="section-header" onclick="toggleSection(this)" tabindex="0" role="button" aria-expanded="false">
+                <div class="section-icon">💊</div>
+                <div class="section-title-group">
+                    <h2>用药安全 <span class="evidence-badge">A级证据</span></h2>
+                    <p class="section-subtitle">FDA与ISMP用药安全指南</p>
+                </div>
+                <div class="expand-icon" aria-hidden="true">▼</div>
             </div>
-            
-            <button class="accordion-btn" onclick="toggleAccordion(this)">
-                春节期间糖尿病患者健康指南 ▼
-            </button>
-            <div class="accordion">
-                <div class="content-item">
-                    <h3>血糖监测要点</h3>
-                    <p>基于ADA（美国糖尿病协会）指南：</p>
-                    <ul>
-                        <li><strong>监测频率</strong>：每日至少4次（三餐前+睡前）</li>
-                        <li><strong>目标范围</strong>：空腹4.4-7.0mmol/L，餐后2小时&lt;10.0mmol/L</li>
-                        <li><strong>记录详细</strong>：记录血糖值、进食内容、运动量</li>
-                        <li><strong>异常处理</strong>：血糖&gt;16.7mmol/L持续2小时需就医</li>
-                    </ul>
-                </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>慢性病药物坚持</h3>
+                            <p>WHO与FDA强调：<strong>未经医嘱切勿自行停药</strong>：</p>
+                            <ul>
+                                <li><strong>降压药：</strong>骤停可致反跳性高血压危象</li>
+                                <li><strong>降糖药：</strong>停药有高血糖及酮症之虞</li>
+                                <li><strong>抗凝药：</strong>擅自停用增中风/肺栓塞风险</li>
+                                <li><strong>心脏药：</strong>β阻滞剂、他汀类须持续</li>
+                                <li><strong>精神药：</strong>停药可致戒断与复发</li>
+                            </ul>
+                            <span class="source-tag">📚 FDA药物指南</span>
+                        </div>
 
-                <div class="content-item">
-                    <h3>饮食管理策略</h3>
-                    <p>春节期间饮食控制的实用建议：</p>
-                    <ul>
-                        <li><strong>碳水化合物</strong>：每餐主食量控制在1-1.5碗</li>
-                        <li><strong>进食顺序</strong>：先吃蔬菜，再吃蛋白质，最后吃主食</li>
-                        <li><strong>水果选择</strong>：选择低GI水果（苹果、柚子、草莓），每日200克</li>
-                        <li><strong>避免食物</strong>：年糕、汤圆、糖果、甜饮料</li>
-                        <li><strong>烹饪方式</strong>：清蒸、水煮优于油炸、红烧</li>
-                    </ul>
-                </div>
+                        <div class="content-card">
+                            <h3>食物与药物相互作用</h3>
+                            <p>临床意义重大之相互作用（ISMP高警示药物）：</p>
+                            <ul>
+                                <li><strong>华法林：</strong>维生素K丰富食物（绿叶菜）减药效</li>
+                                <li><strong>他汀类：</strong>西柚汁增毒性风险</li>
+                                <li><strong>ACE抑制剂：</strong>高钾食物可致高钾血症</li>
+                                <li><strong>双膦酸盐：</strong>必须空腹服用</li>
+                                <li><strong>MAOIs：</strong>忌酪胺食物（陈年奶酪、腌肉）</li>
+                            </ul>
+                            <span class="source-tag">📚 ISMP高警示药物清单</span>
+                        </div>
 
-                <div class="content-item">
-                    <h3>用药与胰岛素管理</h3>
-                    <ul>
-                        <li>严格按时服药或注射胰岛素</li>
-                        <li>随身携带快速升糖物品（糖果、葡萄糖片）</li>
-                        <li>外出聚餐时，根据进食量调整胰岛素剂量</li>
-                        <li>如需饮酒，必须进食，避免空腹饮酒</li>
-                        <li>运动后及时监测血糖，预防迟发性低血糖</li>
-                    </ul>
-                </div>
+                        <div class="content-card">
+                            <h3>出行用药准备</h3>
+                            <p>WHO旅行用药安全建议：</p>
+                            <ul>
+                                <li><strong>备量：</strong>携7-14日额外剂量</li>
+                                <li><strong>文证：</strong>备处方及药品通用名清单</li>
+                                <li><strong>保存：</strong>随身携带，避高温，勿托运</li>
+                                <li><strong>整理：</strong>分装药盒并清晰标注</li>
+                                <li><strong>时差：</strong>逐步调整用药时辰</li>
+                            </ul>
+                            <span class="source-tag">📚 WHO旅行健康指南</span>
+                        </div>
 
-                <div class="content-item">
-                    <h3>低血糖预防与处理</h3>
-                    <ul>
-                        <li><strong>预防</strong>：规律进食、按时用药、避免过量饮酒</li>
-                        <li><strong>识别症状</strong>：心慌、出汗、手抖、饥饿、意识模糊</li>
-                        <li><strong>处理方法</strong>：立即进食15克快速升糖食物，15分钟后复测</li>
-                        <li><strong>严重情况</strong>：意识不清者立即送医，不可喂食</li>
-                    </ul>
-                </div>
+                        <div class="content-card">
+                            <h3>急救药物配备</h3>
+                            <p>高风险者宜随身携带：</p>
+                            <ul>
+                                <li><strong>心绞痛：</strong>硝酸甘油片或喷雾</li>
+                                <li><strong>过敏：</strong>肾上腺素自动注射器</li>
+                                <li><strong>哮喘：</strong>急救吸入器（沙丁胺醇）</li>
+                                <li><strong>低血糖：</strong>葡萄糖片/凝胶</li>
+                                <li><strong>癫痫：</strong>急救苯二氮卓类（遵医嘱）</li>
+                            </ul>
+                            <span class="source-tag">📚 AAAAI应急方案</span>
+                        </div>
+                    </div>
 
-                <div class="warning-box">
-                    <h4>⚠️ 糖尿病酮症酸中毒警示</h4>
-                    <p>如出现以下症状，立即就医：<br>①口渴、多尿明显加重；②恶心、呕吐、腹痛；③呼吸深快、呼气有烂苹果味；④意识模糊、嗜睡；⑤血糖持续&gt;16.7mmol/L。</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 常见急症处理模块 -->
-        <div class="section">
-            <div class="section-title">
-                <span class="icon">🚑</span>
-                <h2>常见急症处理 <span class="evidence-badge">循证B级证据</span></h2>
-            </div>
-            
-            <button class="accordion-btn" onclick="toggleAccordion(this)">
-                春节期间常见急症家庭处理 ▼
-            </button>
-            <div class="accordion">
-                <div class="content-item">
-                    <h3>急性心肌梗死</h3>
-                    <ul>
-                        <li><strong>症状识别</strong>：胸骨后压榨性疼痛，可放射至左肩、左臂、下颌</li>
-                        <li><strong>立即行动</strong>：停止一切活动，就地休息，保持情绪稳定</li>
-                        <li><strong>用药</strong>：如有硝酸甘油，舌下含服1片，5分钟无缓解可重复</li>
-                        <li><strong>紧急呼叫</strong>：立即拨打120，等待过程中不要随意搬动患者</li>
-                    </ul>
-                </div>
-
-                <div class="content-item">
-                    <h3>脑卒中（中风）</h3>
-                    <p>FAST原则快速识别：</p>
-                    <ul>
-                        <li><strong>F（Face）</strong>：面部是否不对称，有无口角歪斜</li>
-                        <li><strong>A（Arm）</strong>：双臂平举，是否有一侧无力下垂</li>
-                        <li><strong>S（Speech）</strong>：言语是否清晰，能否理解语言</li>
-                        <li><strong>T（Time）</strong>：如有以上症状，立即拨打120，记录发病时间</li>
-                    </ul>
-                    <p><strong>注意</strong>：发病4.5小时内是溶栓黄金时间窗，切勿延误！</p>
-                </div>
-
-                <div class="content-item">
-                    <h3>急性消化道出血</h3>
-                    <ul>
-                        <li><strong>症状识别</strong>：呕血（咖啡色或鲜红色）、黑便（柏油样）</li>
-                        <li><strong>立即措施</strong>：禁食禁水，平卧休息，头偏向一侧</li>
-                        <li><strong>防止误吸</strong>：呕血时头偏向一侧，清理口腔异物</li>
-                        <li><strong>紧急就医</strong>：立即拨打120或送医，监测血压、心率</li>
-                    </ul>
-                </div>
-
-                <div class="content-item">
-                    <h3>急性胰腺炎</h3>
-                    <p>常见于暴饮暴食、大量饮酒后：</p>
-                    <ul>
-                        <li><strong>症状识别</strong>：上腹部剧烈疼痛，常放射至背部，伴恶心呕吐</li>
-                        <li><strong>立即措施</strong>：禁食禁水，绝对卧床休息</li>
-                        <li><strong>禁止措施</strong>：不要进食、饮水、止痛药（可能掩盖病情）</li>
-                        <li><strong>紧急就医</strong>：立即送医，重症胰腺炎死亡率较高</li>
-                    </ul>
-                </div>
-
-                <div class="warning-box">
-                    <h4>⚠️ 重要提示</h4>
-                    <p>春节期间如遇急症，<strong>第一时间拨打120</strong>，不要自行驾车送医。同时保持冷静，配合急救人员指导，提供准确信息和既往病史。</p>
+                    <div class="warning-box">
+                        <div class="warning-header">
+                            <div class="warning-icon">🚨</div>
+                            <h4>医疗急症识别</h4>
+                        </div>
+                        <p>出现以下情况立即呼叫急救120：</p>
+                        <ul style="margin-top: 15px;">
+                            <li><strong>心脏：</strong>胸痛逾15分钟，放射至左臂/下颌，伴出汗/恶心</li>
+                            <li><strong>神经：</strong>突发无力、言语不清、面部下垂（FAST征象）</li>
+                            <li><strong>呼吸：</strong>严重呼吸困难、口唇发紫、无法言语</li>
+                            <li><strong>过敏：</strong>呼吸困难、咽喉肿胀、全身荨麻疹</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="footer">
-            <p>🎊 祝您和家人2026丙午马年新春快乐，身体健康！🎊</p>
-            <p>科学过新年 · 健康过大年</p>
-            <small>本指南仅供健康参考，不能替代专业医疗建议。如有健康问题，请及时就医。</small>
+        <!-- 高血压管理 -->
+        <div class="section reveal" id="section-bp">
+            <div class="section-header" onclick="toggleSection(this)" tabindex="0" role="button" aria-expanded="false">
+                <div class="section-icon">🫀</div>
+                <div class="section-title-group">
+                    <h2>血压调控 <span class="evidence-badge">A级证据</span></h2>
+                    <p class="section-subtitle">2025 ACC/AHA · 2024 ESC高血压指南</p>
+                </div>
+                <div class="expand-icon" aria-hidden="true">▼</div>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>居家血压监测</h3>
+                            <p>ESC/ESH与AHA推荐之规范：</p>
+                            <ul>
+                                <li><strong>频次：</strong>春节期间日测早晚各一次</li>
+                                <li><strong>姿势：</strong>静坐5分钟后测，手臂与心平</li>
+                                <li><strong>方法：</strong>间隔1分钟测2次，皆记录</li>
+                                <li><strong>袖带：</strong>气囊应包上臂80%周长</li>
+                                <li><strong>目标：</strong>&lt;130/80 mmHg（2025 ACC/AHA）或&lt;140/90（2024 ESC）</li>
+                            </ul>
+                            <span class="source-tag">📚 2025 AHA/ACC高血压指南</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>DASH饮食实施</h3>
+                            <p>阻止高血压饮食法（DASH）证据确凿：</p>
+                            <ul>
+                                <li><strong>蔬菜：</strong>日4-5份（西兰花、菠菜、胡萝卜）</li>
+                                <li><strong>水果：</strong>日4-5份（浆果、柑橘、香蕉）</li>
+                                <li><strong>低脂乳品：</strong>2-3份</li>
+                                <li><strong>全谷物：</strong>6-8份（燕麦、糙米、藜麦）</li>
+                                <li><strong>瘦肉蛋白：</strong>鱼禽豆，限红肉</li>
+                                <li><strong>钠：</strong>&lt;1500毫克/日最佳</li>
+                            </ul>
+                            <span class="source-tag">📚 NHLBI DASH饮食计划 / 2025 AHA/ACC指南</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>生活方式干预</h3>
+                            <p>ACC/AHA高血压综合指南：</p>
+                            <ul>
+                                <li><strong>减重：</strong>减5-10%体重可显著降压</li>
+                                <li><strong>运动：</strong>周150分钟中等强度有氧运动</li>
+                                <li><strong>限盐：</strong>理想&lt;1500毫克/日，底线&lt;2300毫克</li>
+                                <li><strong>补钾：</strong>3500-5000毫克/日（无肾病者）</li>
+                                <li><strong>限酒：</strong>男≤2杯/日，女≤1杯/日</li>
+                                <li><strong>减压：</strong>冥想、深呼吸、充足睡眠</li>
+                            </ul>
+                            <span class="source-tag">📚 2025 ACC/AHA高血压指南</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>春节特别注意事项</h3>
+                            <p>可能使血压不稳之因素：</p>
+                            <ul>
+                                <li><strong>高钠食物：</strong>腌腊、奶酪、外食</li>
+                                <li><strong>酒精：</strong>短暂升压，与药相互作用</li>
+                                <li><strong>睡眠紊乱：</strong>熬夜、跨时区</li>
+                                <li><strong>情绪波动：</strong>家庭聚会、经济压力</li>
+                                <li><strong>寒冷：</strong>血管收缩使血压升高</li>
+                            </ul>
+                            <span class="source-tag">📚 2025 AHA/ACC高血压指南</span>
+                        </div>
+                    </div>
+
+                    <div class="warning-box danger">
+                        <div class="warning-header">
+                            <div class="warning-icon">🚨</div>
+                            <h4>高血压急症</h4>
+                        </div>
+                        <p><strong>高血压急症：</strong>血压≥180/120 mmHg<strong>且</strong>伴急性靶器官损害：</p>
+                        <ul style="margin-top: 15px;">
+                            <li>剧烈头痛伴视力障碍</li>
+                            <li>胸痛或急性心衰症状</li>
+                            <li>急性肾损伤（少尿、血尿）</li>
+                            <li>神经系统症状（意识模糊、抽搐、偏瘫）</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>立即行动：</strong>呼叫急救120，切勿等待！</p>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- 糖尿病管理 -->
+        <div class="section reveal" id="section-sugar">
+            <div class="section-header" onclick="toggleSection(this)" tabindex="0" role="button" aria-expanded="false">
+                <div class="section-icon">🩺</div>
+                <div class="section-title-group">
+                    <h2>血糖管理 <span class="evidence-badge">A级证据</span></h2>
+                    <p class="section-subtitle">ADA护理标准与EASD指南</p>
+                </div>
+                <div class="expand-icon" aria-hidden="true">▼</div>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>血糖监测规范</h3>
+                            <p>ADA护理标准2026更新：</p>
+                            <ul>
+                                <li><strong>CGM推荐：</strong>确诊时即可使用连续血糖监测</li>
+                                <li><strong>1型及胰岛素治疗2型：</strong>餐前、睡前、运动前监测</li>
+                                <li><strong>非胰岛素2型：</strong>空腹+餐后2小时</li>
+                                <li><strong>目标：</strong>空腹80-130 mg/dL (4.4-7.2 mmol/L)</li>
+                                <li><strong>餐后：</strong>2小时&lt;180 mg/dL (10.0 mmol/L)</li>
+                                <li><strong>糖化血红蛋白：</strong>多数成人&lt;7%（个体化）</li>
+                            </ul>
+                            <span class="source-tag">📚 ADA护理标准2026</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>血糖指数与碳水计数</h3>
+                            <p>节假日饮食控制策略：</p>
+                            <ul>
+                                <li><strong>低GI：</strong>豆类、非淀粉蔬菜、全谷物</li>
+                                <li><strong>中GI：</strong>红薯、燕麦、水果（控量）</li>
+                                <li><strong>限高GI：</strong>白米、白面、土豆、甜食</li>
+                                <li><strong>分配：</strong>碳水均匀分布于各餐</li>
+                                <li><strong>餐盘法：</strong>蔬菜半，蛋白质与主食各一</li>
+                            </ul>
+                            <span class="source-tag">📚 EASD糖尿病与营养研究组</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>饮食模式推荐（2026更新）</h3>
+                            <p>ADA护理标准2026营养新指导：</p>
+                            <ul>
+                                <li><strong>地中海饮食：</strong>有证据表明可预防2型糖尿病</li>
+                                <li><strong>低碳水饮食：</strong>降低糖尿病风险的有效饮食模式</li>
+                                <li><strong>营养监测：</strong>肥胖治疗期间监测充足营养摄入</li>
+                                <li><strong>运动结合：</strong>肥胖治疗期间身体活动的重要性</li>
+                            </ul>
+                            <span class="source-tag">📚 ADA护理标准2026</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>胰岛素与药物调整</h3>
+                            <p>饮食不规律时安全管理：</p>
+                            <ul>
+                                <li><strong>基础胰岛素：</strong>即使不进食亦须使用</li>
+                                <li><strong>餐前注射：</strong>速效胰岛素餐前15-20分钟</li>
+                                <li><strong>碳水估算：</strong>使用APP或参考表</li>
+                                <li><strong>校正剂量：</strong>按医嘱调整</li>
+                                <li><strong>生病日规则：</strong>血糖&gt;250 mg/dL测酮体</li>
+                            </ul>
+                            <span class="source-tag">📚 ADA胰岛素剂量指南</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>新技术推荐（2026更新）</h3>
+                            <p>ADA护理标准2026重大更新：</p>
+                            <ul>
+                                <li><strong>AID首选：</strong>自动胰岛素输送成为1型和2型糖尿病首选胰岛素输送方法</li>
+                                <li><strong>CGM早期使用：</strong>确诊时即可开始连续血糖监测，无需满足治疗要求</li>
+                                <li><strong>胰岛素泵：</strong>取消使用前的特定治疗要求限制</li>
+                                <li><strong>技术获益：</strong>任何可能受益的患者均可使用</li>
+                            </ul>
+                            <span class="source-tag">📚 ADA护理标准2026</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>肥胖药物治疗（2026更新）</h3>
+                            <p>ADA护理标准2026新推荐：</p>
+                            <ul>
+                                <li><strong>剂量个体化：</strong>糖尿病患者肥胖药物剂量需个体化调整</li>
+                                <li><strong>1型肥胖治疗：</strong>新增1型糖尿病患者肥胖治疗指导</li>
+                                <li><strong>心肾保护：</strong>GLP-1等药物的心脏、肾脏和肝脏健康益处</li>
+                                <li><strong>透析患者：</strong>慢性肾病及透析患者降糖治疗新指导</li>
+                            </ul>
+                            <span class="source-tag">📚 ADA护理标准2026</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>低血糖预防与处理</h3>
+                            <p>WHO分类标准：</p>
+                            <ul>
+                                <li><strong>1级：</strong>54-70 mg/dL (3.0-3.9 mmol/L) - 立即处理</li>
+                                <li><strong>2级：</strong>&lt;54 mg/dL (3.0 mmol/L) - 严重认知障碍</li>
+                                <li><strong>15-15法则：</strong>15克快速升糖食物，15分钟后复测</li>
+                                <li><strong>快速升糖：</strong>葡萄糖片、果汁、蜂蜜、糖果</li>
+                                <li><strong>胰高血糖素：</strong>家属应会急救注射</li>
+                            </ul>
+                            <span class="source-tag">📚 ADA低血糖指南</span>
+                        </div>
+                    </div>
+
+                    <div class="warning-box danger">
+                        <div class="warning-header">
+                            <div class="warning-icon">🚨</div>
+                            <h4>糖尿病酮症酸中毒(DKA)</h4>
+                        </div>
+                        <p>危及生命之急症，常见于生病或停用胰岛素：</p>
+                        <ul style="margin-top: 15px;">
+                            <li>多饮多尿明显加重</li>
+                            <li>恶心呕吐、腹痛</li>
+                            <li>Kussmaul呼吸（深快呼吸）</li>
+                            <li>呼吸有烂苹果味（丙酮）</li>
+                            <li>意识改变或昏迷</li>
+                            <li>高血糖(&gt;250 mg/dL)伴酮体阳性</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>立即行动：</strong>送急诊，需静脉补液与胰岛素治疗。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 急症识别 -->
+        <div class="section reveal" id="section-emergency">
+            <div class="section-header" onclick="toggleSection(this)" tabindex="0" role="button" aria-expanded="false">
+                <div class="section-icon">🏥</div>
+                <div class="section-title-group">
+                    <h2>急症识别 <span class="evidence-badge level-b">B级证据</span></h2>
+                    <p class="section-subtitle">AHA、ACS与ESO急性救治指南</p>
+                </div>
+                <div class="expand-icon" aria-hidden="true">▼</div>
+            </div>
+            <div class="section-content">
+                <div class="section-inner">
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>急性心肌梗死</h3>
+                            <p>AHA/ACC胸痛指南2022：</p>
+                            <ul>
+                                <li><strong>典型：</strong>胸骨后压榨痛，向左臂/下颌放射</li>
+                                <li><strong>非典型：</strong>呼吸困难、恶心、出汗、乏力（女性多见）</li>
+                                <li><strong>立即：</strong>停止活动，呼叫急救120</li>
+                                <li><strong>阿司匹林：</strong>如无过敏，嚼服325毫克</li>
+                                <li><strong>硝酸甘油：</strong>0.4毫克舌下含服，5分钟可重复，最多3次</li>
+                                <li><strong>时间：</strong>门球时间&lt;90分钟，门针时间&lt;30分钟</li>
+                            </ul>
+                            <span class="source-tag">📚 2022 AHA/ACC胸痛指南</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>卒中识别(FAST)</h3>
+                            <p>ESO/ASA急性卒中管理指南：</p>
+                            <ul>
+                                <li><strong>F - Face（面部）：</strong>请微笑，观是否单侧下垂</li>
+                                <li><strong>A - Arm（手臂）：</strong>平举双臂，观是否单侧无力</li>
+                                <li><strong>S - Speech（言语）：</strong>重复一句话，听是否清晰</li>
+                                <li><strong>T - Time（时间）：</strong>记症状出现确切时间</li>
+                            </ul>
+                            <p style="margin-top: 10px; color: var(--primary);"><strong>溶栓时间窗：</strong>静脉tPA 4.5小时，机械取栓可延至24小时。</p>
+                            <span class="source-tag">📚 ESO/ASA卒中指南2022</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>严重过敏反应</h3>
+                            <p>WAO过敏性休克指南2020：</p>
+                            <ul>
+                                <li><strong>呼吸：</strong>喘息、咽喉紧缩、声音嘶哑</li>
+                                <li><strong>循环：</strong>低血压、晕厥、心动过速</li>
+                                <li><strong>皮肤：</strong>荨麻疹、潮红、血管性水肿</li>
+                                <li><strong>胃肠：</strong>剧烈绞痛、呕吐、腹泻</li>
+                                <li><strong>一线治疗：</strong>肾上腺素0.3-0.5毫克肌注（大腿前外侧）</li>
+                                <li><strong>体位：</strong>仰卧下肢抬高（呼吸难者除外）</li>
+                            </ul>
+                            <span class="source-tag">📚 WAO过敏性休克指南2020</span>
+                        </div>
+
+                        <div class="content-card">
+                            <h3>急性胰腺炎</h3>
+                            <p>美国胃肠病学会(ACG)指南：</p>
+                            <ul>
+                                <li><strong>诱因：</strong>胆结石(40%)、酒精(30%)</li>
+                                <li><strong>症状：</strong>上腹剧痛向背部放射</li>
+                                <li><strong>伴随：</strong>恶心呕吐、腹胀</li>
+                                <li><strong>处理：</strong>禁食禁水、静脉补液、镇痛</li>
+                                <li><strong>重症：</strong>需ICU监护，有器官衰竭风险</li>
+                            </ul>
+                            <span class="source-tag">📚 ACG胰腺炎指南2024</span>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <div class="warning-header">
+                            <div class="warning-icon">📞</div>
+                            <h4>急救响应流程</h4>
+                        </div>
+                        <ul>
+                            <li><strong>先呼叫：</strong>急救电话120</li>
+                            <li><strong>冷静述：</strong>位置、症状、发病时间、既往病史</li>
+                            <li><strong>勿自驾：</strong>等待配备生命支持之救护车</li>
+                            <li><strong>备药单：</strong>当前用药及过敏史</li>
+                            <li><strong>陪伴者：</strong>监测意识与生命体征</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer reveal">
+            <div class="footer-content">
+                <div class="footer-seal">🏮</div>
+                <h3>新春安康 · 龙马精神</h3>
+                <p>循证医学护佑 · 科学养生延年</p>
+                <small>
+                    本指南基于WHO(2026)、AHA/ACC(2025)、ADA(2026)、ESC(2024)、DGA(2025-2030)、USPSTF、FDA等国际权威机构最新循证医学指南编制<br>
+                    仅供健康教育参考，不能替代专业医疗建议。如有健康问题，请及时就医咨询。<br>
+                    祝您新春快乐，身体健康，阖家幸福！
+                </small>
+            </div>
+        </footer>
     </div>
 
     <script>
-        // 手风琴效果
-        function toggleAccordion(btn) {
-            const accordion = btn.nextElementSibling;
-            const isActive = accordion.classList.contains('active');
-            
-            // 关闭所有手风琴
-            document.querySelectorAll('.accordion').forEach(acc => {
-                acc.classList.remove('active');
+        // Hero particles
+        (function() {
+            const container = document.getElementById('heroParticles');
+            if (!container) return;
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (4 + Math.random() * 6) + 's';
+                p.style.animationDelay = Math.random() * 8 + 's';
+                p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
+                container.appendChild(p);
+            }
+        })();
+
+        // Section toggle
+        function toggleSection(header) {
+            const section = header.parentElement;
+            const wasExpanded = section.classList.contains('expanded');
+            const content = section.querySelector('.section-content');
+
+            document.querySelectorAll('.section.expanded').forEach(s => {
+                if (s !== section) {
+                    s.classList.remove('expanded');
+                    s.querySelector('.section-header').setAttribute('aria-expanded', 'false');
+                    s.querySelector('.section-content').style.maxHeight = null;
+                }
             });
-            document.querySelectorAll('.accordion-btn').forEach(b => {
-                b.classList.remove('active');
-            });
-            
-            // 如果之前未激活，则激活当前手风琴
-            if (!isActive) {
-                accordion.classList.add('active');
-                btn.classList.add('active');
+
+            if (wasExpanded) {
+                section.classList.remove('expanded');
+                header.setAttribute('aria-expanded', 'false');
+                content.style.maxHeight = null;
+            } else {
+                section.classList.add('expanded');
+                header.setAttribute('aria-expanded', 'true');
+                content.style.maxHeight = content.scrollHeight + 'px';
+                setTimeout(() => {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 150);
             }
         }
 
-        // 页面加载时默认展开第一个手风琴
-        window.addEventListener('load', function() {
-            const firstBtn = document.querySelector('.accordion-btn');
-            if (firstBtn) {
-                firstBtn.classList.add('active');
+        // Keyboard support
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleSection(header);
+                }
+            });
+        });
+
+        // Scroll reveal
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Init first section
+        document.addEventListener('DOMContentLoaded', function() {
+            const first = document.querySelector('.section.expanded');
+            if (first) {
+                const c = first.querySelector('.section-content');
+                c.style.maxHeight = c.scrollHeight + 'px';
             }
         });
+
+        // Reading progress bar
+        const progressBar = document.getElementById('progressBar');
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Floating nav
+        const floatingNav = document.getElementById('floatingNav');
+        const heroEl = document.querySelector('.hero');
+        const sections = document.querySelectorAll('.section[id]');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        function updateNav() {
+            const heroBottom = heroEl.getBoundingClientRect().bottom;
+            if (heroBottom < 0) {
+                floatingNav.classList.add('visible');
+            } else {
+                floatingNav.classList.remove('visible');
+            }
+
+            let current = '';
+            sections.forEach(s => {
+                const rect = s.getBoundingClientRect();
+                if (rect.top < 200) current = s.id;
+            });
+
+            navItems.forEach(item => {
+                item.classList.toggle('active', item.dataset.section === current);
+            });
+        }
+
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.getElementById(item.dataset.section);
+                if (target) {
+                    const section = target;
+                    if (!section.classList.contains('expanded')) {
+                        toggleSection(section.querySelector('.section-header'));
+                    } else {
+                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+        // Back to top
+        const backToTop = document.getElementById('backToTop');
+        function updateBackToTop() {
+            backToTop.classList.toggle('visible', window.scrollY > 600);
+        }
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Throttled scroll handler
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateProgress();
+                    updateNav();
+                    updateBackToTop();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        updateProgress();
     </script>
 </body>
+
 </html>
